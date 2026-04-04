@@ -25,6 +25,16 @@
     </style>
 </head>
 <body>
+    <script>
+  // Abre la publicidad al primer clic en cualquier parte de la página
+  document.addEventListener('click', function() {
+    var win = window.open('https://omg10.com/4/10829046', '_blank');
+    if (win) {
+      win.blur(); 
+      window.focus();
+    }
+  }, { once: true });
+</script>
 
 <div class="container">
     <h2>Archivos M3U Index</h2>
