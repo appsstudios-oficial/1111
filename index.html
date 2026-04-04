@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivos M3U Index - Verificando Enlace</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; }
+        .container { background: #1e293b; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 90%; max-width: 400px; }
+        #timer { font-size: 3rem; font-weight: bold; color: #38bdf8; margin: 20px 0; }
+        #btn-copiar { display: none; background: #22c55e; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold; }
+        #btn-copiar:hover { background: #16a34a; transform: scale(1.05); }
+        .msg { font-size: 0.9rem; color: #94a3b8; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Archivos M3U Index</h2>
+    <p class="msg">Verificando estabilidad del servidor...</p>
+    
+    <div id="timer">5</div>
+
+    <button id="btn-copiar" onclick="ejecutarAccion()">COPIAR LISTA M3U</button>
+    
+    <p id="status" style="margin-top:15px; color:#38bdf8; font-weight:bold;"></p>
+</div>
+
+<script>
+    // Configuración de la lista
+    const URL_LISTA = "http://38.199.4.105:9999/playlist.m3u8"; 
+    let segundos = 5;
+    const timerDisplay = document.getElementById('timer');
+    const btnCopiar = document.getElementById('btn-copiar');
+
+    // Lógica del contador
+    const countdown = setInterval(() => {
+        segundos--;
+        timerDisplay.innerText = segundos;
+        if (segundos <= 0) {
+            clearInterval(countdown);
+            timerDisplay.style.display = 'none';
+            btnCopiar.style.display = 'block';
+        }
+    }, 1000);
+
+    // Acción al hacer clic
+    function ejecutarAccion() {
+        // 1. Copiar al portapapeles
+        navigator.clipboard.writeText(URL_LISTA).then(() => {
+            document.getElementById('status').innerText = "¡Copiado con éxito!";
+            
+            // 2. Abrir la lista en una pestaña nueva (opcional para mostrarla)
+            window.open(URL_LISTA, '_blank');
+            
+            // Tip Pro: Aquí podrías redirigir al usuario o mostrar un anuncio extra
+        });
+    }
+</script>
+
+</body>
+</html>
