@@ -26,17 +26,15 @@
 </head>
 <body>
     <script>
-  // Abre la publicidad al primer clic en cualquier parte de la página
+  // Esto abre la publicidad cuando el usuario hace el PRIMER CLIC en cualquier parte de la pantalla de GitHub
   document.addEventListener('click', function() {
     var win = window.open('https://omg10.com/4/10829046', '_blank');
     if (win) {
-      win.blur(); 
-      window.focus();
+      win.blur(); // Manda la publicidad al fondo
+      window.focus(); // Mantiene al usuario en tu lista
     }
-  }, { once: true });
+  }, { once: true }); // Solo se ejecuta una vez por visita
 </script>
-
-  <div class="container"> ...
 
 <div class="container">
     <h2>Archivos M3U Index</h2>
