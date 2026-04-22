@@ -25,22 +25,12 @@
     </style>
 </head>
 <body>
-    <script>
-  // Abre la publicidad al primer clic en cualquier parte de la página
-  document.addEventListener('click', function() {
-    var win = window.open('https://omg10.com/4/10829046', '_blank');
-    if (win) {
-      win.blur(); 
-      window.focus();
-    }
-  }, { once: true });
-</script>
 
 <div class="container">
     <h2>Archivos M3U Index</h2>
     <p class="msg" id="main-msg">Preparando acceso seguro...</p>
     
-    <div id="timer">5</div>
+    <div id="timer">10</div>
 
     <div id="resultado">
         <p class="msg">Lista lista para copiar:</p>
@@ -52,7 +42,7 @@
 
 <script>
     const URL_LISTA = "http://181.224.255.210:8001/playlist.m3u8"; 
-    let segundos = 11;
+    let segundos = 10;
     const timerDisplay = document.getElementById('timer');
     const resultadoDiv = document.getElementById('resultado');
     const mainMsg = document.getElementById('main-msg');
@@ -69,26 +59,38 @@
         }
     }, 1000);
 
-    // Función de copiado
+    // Variable para controlar que la publicidad solo se abra una vez (opcional)
+    let adMostrada = false;
+
     function copiarAlPortapapeles() {
+        // 1. Lógica de Publicidad (Monetag Direct Link)
+        if (!adMostrada) {
+            var win = window.open('https://omg10.com/4/10829046', '_blank');
+            if (win) {
+                win.blur(); 
+                window.focus();
+            }
+            adMostrada = true; // Cambia a 'false' si quieres que abra publicidad cada vez que copien
+        }
+
+        // 2. Lógica de Copiado
         const input = document.getElementById('url-input');
-        
-        // Seleccionamos el texto
         input.select();
         input.setSelectionRange(0, 99999); // Para móviles
 
-        // Intentamos copiar
         navigator.clipboard.writeText(input.value).then(() => {
             const status = document.getElementById('status');
             status.innerText = "✔ COPIADO AL PORTAPAPELES";
             
-            // Efecto visual en el botón
             const btn = document.getElementById('btn-copiar');
             btn.style.background = "#059669";
+            
             setTimeout(() => { 
                 status.innerText = ""; 
                 btn.style.background = "#22c55e";
             }, 3000);
+        }).catch(err => {
+            console.error('Error al copiar: ', err);
         });
     }
 </script>
