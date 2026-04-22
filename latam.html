@@ -9,18 +9,12 @@
         .container { background: #1e293b; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 90%; max-width: 420px; border: 1px solid #334155; }
         h2 { color: #38bdf8; margin-bottom: 5px; }
         #timer { font-size: 3.5rem; font-weight: bold; color: #38bdf8; margin: 20px 0; }
-        
-        /* Contenedor del resultado final */
         #resultado { display: none; margin-top: 20px; animation: fadeIn 0.5s; }
-        
         input[type="text"] { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #38bdf8; background: #0f172a; color: #38bdf8; font-weight: bold; text-align: center; margin-bottom: 15px; box-sizing: border-box; font-size: 0.9rem; }
-        
         #btn-copiar { background: #22c55e; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold; text-transform: uppercase; }
         #btn-copiar:hover { background: #16a34a; transform: translateY(-2px); }
-        
         .msg { font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px; }
         #status { margin-top: 10px; color: #4ade80; font-size: 0.9rem; font-weight: bold; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
@@ -35,19 +29,18 @@
     <div id="resultado">
         <p class="msg">Lista lista para copiar:</p>
         <input type="text" id="url-input" value="http://181.224.255.210:8001/playlist.m3u8" readonly>
-        <button id="btn-copiar" onclick="copiarAlPortapapeles()">COPIAR LISTA M3U</button>
+        <button id="btn-copiar" onclick="copiarYPublicidad()">COPIAR LISTA M3U</button>
         <div id="status"></div>
     </div>
 </div>
 
 <script>
-    const URL_LISTA = "http://181.224.255.210:8001/playlist.m3u8"; 
+    // Configuración del contador
     let segundos = 10;
     const timerDisplay = document.getElementById('timer');
     const resultadoDiv = document.getElementById('resultado');
     const mainMsg = document.getElementById('main-msg');
 
-    // Lógica del contador
     const countdown = setInterval(() => {
         segundos--;
         timerDisplay.innerText = segundos;
@@ -59,38 +52,38 @@
         }
     }, 1000);
 
-    // Variable para controlar que la publicidad solo se abra una vez (opcional)
-    let adMostrada = false;
-
-    function copiarAlPortapapeles() {
-        // 1. Lógica de Publicidad (Monetag Direct Link)
-        if (!adMostrada) {
-            var win = window.open('https://omg10.com/4/10829046', '_blank');
-            if (win) {
-                win.blur(); 
-                window.focus();
-            }
-            adMostrada = true; // Cambia a 'false' si quieres que abra publicidad cada vez que copien
-        }
-
-        // 2. Lógica de Copiado
+    // Función principal
+    function copiarYPublicidad() {
         const input = document.getElementById('url-input');
+        const status = document.getElementById('status');
+        const btn = document.getElementById('btn-copiar');
+
+        // 1. PRIMERO: Copiar al portapapeles
         input.select();
-        input.setSelectionRange(0, 99999); // Para móviles
+        input.setSelectionRange(0, 99999); // Móviles
 
         navigator.clipboard.writeText(input.value).then(() => {
-            const status = document.getElementById('status');
+            // Feedback visual inmediato de que se copió
             status.innerText = "✔ COPIADO AL PORTAPAPELES";
-            
-            const btn = document.getElementById('btn-copiar');
             btn.style.background = "#059669";
-            
-            setTimeout(() => { 
-                status.innerText = ""; 
-                btn.style.background = "#22c55e";
-            }, 3000);
+
+            // 2. SEGUNDO: Abrir publicidad después de 1 segundo (1000 ms)
+            setTimeout(() => {
+                var win = window.open('https://omg10.com/4/10829046', '_blank');
+                if (win) {
+                    win.blur(); 
+                    window.focus();
+                }
+                
+                // Limpiar mensaje de éxito después de abrir la publi
+                setTimeout(() => {
+                    status.innerText = "";
+                    btn.style.background = "#22c55e";
+                }, 2000);
+            }, 1000); 
+
         }).catch(err => {
-            console.error('Error al copiar: ', err);
+            console.error("Error al copiar", err);
         });
     }
 </script>
